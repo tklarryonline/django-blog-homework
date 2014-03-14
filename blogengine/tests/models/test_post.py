@@ -1,15 +1,12 @@
 from django.test import TestCase
-from django.utils import timezone
+
 from blogengine.models import Post
+from blogengine.tests.unittest_support import create_post
 
 class PostTest(TestCase):
     def test_create_post(self):
         # Creates the Post with some attributes
-        post = Post()
-        post.title = "My first post"
-        post.text = "This is my first blog post"
-        post.pub_date = timezone.now()
-        post.save()
+        post = create_post()
 
         # Checks if post is created successfully
         all_posts = Post.objects.all()
