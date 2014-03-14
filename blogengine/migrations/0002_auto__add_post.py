@@ -15,7 +15,7 @@ class Migration(SchemaMigration):
             ('pub_date', self.gf('django.db.models.fields.DateTimeField')()),
             ('text', self.gf('django.db.models.fields.TextField')()),
         ))
-        db.send_create_signal(u'blogengine', ['Post'])
+        db.send_create_signal('blogengine', ['Post'])
 
 
     def backwards(self, orm):
@@ -24,7 +24,7 @@ class Migration(SchemaMigration):
 
 
     models = {
-        u'blogengine.post': {
+        'blogengine.post': {
             'Meta': {'object_name': 'Post'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'pub_date': ('django.db.models.fields.DateTimeField', [], {}),
