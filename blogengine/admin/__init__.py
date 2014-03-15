@@ -1,4 +1,6 @@
-from blogengine import models
 from django.contrib import admin
 
-admin.site.register(models.Post)
+from blogengine import models
+from .models_admin import PostAdmin
+
+admin.site.register(models.Post, PostAdmin)

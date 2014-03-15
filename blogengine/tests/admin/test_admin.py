@@ -1,4 +1,5 @@
 from django.test import LiveServerTestCase, Client
+from django.utils.text import slugify
 
 from blogengine.models import Post
 from blogengine.tests.unittest_support import create_post
@@ -58,7 +59,8 @@ class AdminTest(LiveServerTestCase):
             'title': 'My first post',
             'text': 'This is my first post',
             'pub_date_0': '2014-03-15',
-            'pub_date_1': '1:00:32'
+            'pub_date_1': '1:00:32',
+            'slug': slugify(u'My first post')
         }, follow=True)
         self.assertEquals(response.status_code, 200)
 
@@ -81,7 +83,8 @@ class AdminTest(LiveServerTestCase):
             'title': 'My second post',
             'text': 'This is my second blog post',
             'pub_date_0': '2013-12-28',
-            'pub_date_1': '22:00:04'
+            'pub_date_1': '22:00:04',
+            'slug': slugify(u'My second post')
         }, follow=True)
         self.assertEquals(response.status_code, 200)
 
