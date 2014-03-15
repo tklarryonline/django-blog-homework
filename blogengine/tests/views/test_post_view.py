@@ -1,13 +1,10 @@
 import markdown
-from django.test import LiveServerTestCase, Client
 
 from blogengine.models import Post
+from blogengine.tests.acceptancetest_support import BaseAcceptanceTest
 from blogengine.tests.unittest_support import create_post
 
-class PostViewTest(LiveServerTestCase):
-    def setUp(self):
-        self.client = Client()
-
+class PostViewTest(BaseAcceptanceTest):
     def test_index(self):
         post = create_post(title='My first post',
                            text='This is [my first blog post](http://localhost:8000/)')

@@ -1,14 +1,11 @@
-from django.test import LiveServerTestCase, Client
 from django.utils.text import slugify
 
 from blogengine.models import Post
+from blogengine.tests.acceptancetest_support import BaseAcceptanceTest
 from blogengine.tests.unittest_support import create_post
 
-class AdminTest(LiveServerTestCase):
+class AdminTest(BaseAcceptanceTest):
     fixtures = ['users.json']
-
-    def setUp(self):
-        self.client = Client()
 
     def test_login(self):
         # Gets login page
