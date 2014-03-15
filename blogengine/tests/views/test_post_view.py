@@ -1,3 +1,4 @@
+import markdown
 from django.test import LiveServerTestCase, Client
 
 from blogengine.models import Post
@@ -8,7 +9,8 @@ class PostViewTest(LiveServerTestCase):
         self.client = Client()
 
     def test_index(self):
-        post = create_post()
+        post = create_post(title='My first post',
+                           text='This is [my first blog post](http://localhost:8000/)')
 
         # Checks if post is created successfully
         all_posts = Post.objects.all()
@@ -20,7 +22,10 @@ class PostViewTest(LiveServerTestCase):
 
         # Checks if the post data is in the response
         self.assertTrue(post.title in response.content)
-        self.assertTrue(post.text in response.content)
+        self.assertTrue(markdown.markdown(post.text) in response.content)
         self.assertTrue(str(post.pub_date.year) in response.content)
         self.assertTrue(post.pub_date.strftime('%b') in response.content)
         self.assertTrue(str(post.pub_date.day) in response.content)
+
+        # Checks if the link is marked up properly
+        self.assertTrue('<a href="http://localhost:8000/">my first blog post</a>' in response.content)
