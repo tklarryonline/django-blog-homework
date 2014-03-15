@@ -1,0 +1,24 @@
+{
+  "name": "django_blog",
+  "version": "0.0.0",
+  "homepage": "https://github.com/tklarryonline/django-blog-homework",
+  "authors": [
+    "Luan Nguyen Thanh <tklarryonline@gmail.com>"
+  ],
+  "main": "manage.py",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.1.1",
+    "html5-boilerplate": "~4.3.0"
+  }
+}
