@@ -2,7 +2,7 @@ from django.utils.text import slugify
 
 from blogengine.models import Post
 from blogengine.tests.acceptancetest_support import BaseAcceptanceTest
-from blogengine.tests.unittest_support import create_post, create_user
+from blogengine.tests.unittest_support import create_post, create_user, create_site
 
 class AdminTest(BaseAcceptanceTest):
     fixtures = ['users.json']
@@ -57,7 +57,8 @@ class AdminTest(BaseAcceptanceTest):
             'text': 'This is my first post',
             'pub_date_0': '2014-03-15',
             'pub_date_1': '1:00:32',
-            'slug': slugify(u'My first post')
+            'slug': slugify(u'My first post'),
+            'site': '1'
         }, follow=True)
         self.assertEquals(response.status_code, 200)
 
@@ -72,8 +73,11 @@ class AdminTest(BaseAcceptanceTest):
         # Creates the author
         author = create_user()
 
+        # Create a site
+        site = create_site()
+
         # Creates a post
-        post = create_post(author)
+        post = create_post(author, site)
 
         # Log in
         self.client.login(username='luannguyen', password="password")
@@ -84,7 +88,8 @@ class AdminTest(BaseAcceptanceTest):
             'text': 'This is my second blog post',
             'pub_date_0': '2013-12-28',
             'pub_date_1': '22:00:04',
-            'slug': slugify(u'My second post')
+            'slug': slugify(u'My first post'),
+            'site': '1'
         }, follow=True)
         self.assertEquals(response.status_code, 200)
 
@@ -102,8 +107,11 @@ class AdminTest(BaseAcceptanceTest):
         # Creates the author
         author = create_user()
 
+        # Create a site
+        site = create_site()
+
         # Creates a post
-        post = create_post(author)
+        post = create_post(author, site)
 
         # Check new post saved
         all_posts = Post.objects.all()

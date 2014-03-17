@@ -1,15 +1,18 @@
 from django.test import TestCase
 
 from blogengine.models import Post
-from blogengine.tests.unittest_support import create_post, create_user
+from blogengine.tests.unittest_support import create_post, create_user, create_site
 
 class PostTest(TestCase):
     def test_create_post(self):
         # Creates the author
         author = create_user()
 
+        # Create a site
+        site = create_site()
+
         # Creates the Post with some attributes
-        post = create_post(author)
+        post = create_post(author, site)
 
         # Checks if post is created successfully
         all_posts = Post.objects.all()

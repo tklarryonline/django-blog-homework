@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 from django.db import models
 
 class Post(models.Model):
@@ -7,6 +8,7 @@ class Post(models.Model):
     text = models.TextField()
     slug = models.SlugField(max_length=40, unique=True)
     author = models.ForeignKey(User)
+    site = models.ForeignKey(Site)
 
     class Meta:
         app_label = "blogengine"
