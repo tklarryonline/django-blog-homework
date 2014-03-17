@@ -1,7 +1,7 @@
 from django.test import TestCase
 
-from blogengine.models import Post
-from blogengine.tests.unittest_support import create_post, create_user, create_site
+from blogengine.models import Post, Category
+from blogengine.tests.unittest_support import *
 
 class PostTest(TestCase):
     def test_create_post(self):
@@ -11,8 +11,11 @@ class PostTest(TestCase):
         # Create a site
         site = create_site()
 
+        # Create category
+        category = create_category()
+
         # Creates the Post with some attributes
-        post = create_post(author, site)
+        post = create_post(author, site, category)
 
         # Checks if post is created successfully
         all_posts = Post.objects.all()
@@ -30,3 +33,4 @@ class PostTest(TestCase):
         self.assertEquals(only_post.pub_date.minute, post.pub_date.minute)
         self.assertEquals(only_post.pub_date.second, post.pub_date.second)
         self.assertEquals(only_post.author, author)
+        self.assertEquals(only_post.category, category)

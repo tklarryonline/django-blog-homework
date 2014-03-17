@@ -3,13 +3,14 @@ from django.contrib.sites.models import Site
 from django.utils import timezone
 from django.utils.text import slugify
 
-from blogengine.models import Post
+from blogengine.models import Post, Category
 
-def create_post(author, site,
+def create_post(author, site, category,
                 title='My first post',
                 text='This is my first blog post'):
     return Post.objects.create(author=author,
                                site=site,
+                               category=category,
                                title=title,
                                text=text,
                                pub_date=timezone.now(),
@@ -22,3 +23,7 @@ def create_user(username='testuser',
 
 def create_site(name='example.com', domain='example.com'):
     return Site.objects.create(name=name, domain=domain)
+
+def create_category(name='python',
+                    description='The Python programming lanaguage'):
+    return Category.objects.create(name=name, description=description)

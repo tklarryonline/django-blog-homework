@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.db import models
+from blogengine.models import Category
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
@@ -9,6 +10,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=40, unique=True)
     author = models.ForeignKey(User)
     site = models.ForeignKey(Site)
+    category = models.ForeignKey(Category, blank=True, null=True)
 
     class Meta:
         app_label = "blogengine"

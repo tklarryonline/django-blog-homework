@@ -1,8 +1,8 @@
 from django.utils.text import slugify
 
-from blogengine.models import Post
+from blogengine.models import Post, Category
 from blogengine.tests.acceptancetest_support import BaseAcceptanceTest
-from blogengine.tests.unittest_support import create_post, create_user, create_site
+from blogengine.tests.unittest_support import *
 
 class AdminTest(BaseAcceptanceTest):
     fixtures = ['users.json']
@@ -44,6 +44,9 @@ class AdminTest(BaseAcceptanceTest):
         self.assertTrue('Log in' in response.content)
 
     def test_create_post(self):
+        # Create the category
+        category = create_category()
+
         # Logs in first
         self.client.login(username="luannguyen", password="password")
 
@@ -58,7 +61,8 @@ class AdminTest(BaseAcceptanceTest):
             'pub_date_0': '2014-03-15',
             'pub_date_1': '1:00:32',
             'slug': slugify(u'My first post'),
-            'site': '1'
+            'site': '1',
+            'category': '1'
         }, follow=True)
         self.assertEquals(response.status_code, 200)
 
@@ -76,8 +80,11 @@ class AdminTest(BaseAcceptanceTest):
         # Create a site
         site = create_site()
 
+        # Create a category
+        category = create_category()
+
         # Creates a post
-        post = create_post(author, site)
+        post = create_post(author, site, category)
 
         # Log in
         self.client.login(username='luannguyen', password="password")
@@ -89,7 +96,8 @@ class AdminTest(BaseAcceptanceTest):
             'pub_date_0': '2013-12-28',
             'pub_date_1': '22:00:04',
             'slug': slugify(u'My first post'),
-            'site': '1'
+            'site': '1',
+            'category': '1'
         }, follow=True)
         self.assertEquals(response.status_code, 200)
 
@@ -110,8 +118,11 @@ class AdminTest(BaseAcceptanceTest):
         # Create a site
         site = create_site()
 
+        # Create a category
+        category = create_category()
+
         # Creates a post
-        post = create_post(author, site)
+        post = create_post(author, site, category)
 
         # Check new post saved
         all_posts = Post.objects.all()
@@ -132,3 +143,69 @@ class AdminTest(BaseAcceptanceTest):
         # Check post amended
         all_posts = Post.objects.all()
         self.assertEquals(len(all_posts), 0)
+
+    def test_create_category(self):
+        # Logs in first
+        self.client.login(username="luannguyen", password="password")
+
+        # Checks the response
+        response = self.client.get('/admin/blogengine/category/add/')
+        self.assertEquals(response.status_code, 200)
+
+        # Creates a new category
+        response = self.client.post('/admin/blogengine/category/add/', {
+            'name': 'python',
+            'description': 'The Python programming lanaguage'
+        }, follow=True)
+        self.assertEquals(response.status_code, 200)
+
+        # Checks message from response
+        self.assertTrue('added successfully' in response.content)
+
+        # Checks new category in database
+        all_categories = Category.objects.all()
+        self.assertEquals(len(all_categories), 1)
+
+    def test_edit_category(self):
+        # Create a category
+        category = create_category()
+
+        # Log in
+        self.client.login(username='luannguyen', password="password")
+
+        # Edit the category
+        response = self.client.post('/admin/blogengine/category/1/', {
+            'name': 'perl',
+            'description': 'The Perl programming lanaguage'
+        }, follow=True)
+        self.assertEquals(response.status_code, 200)
+
+        # Check changed successfully
+        self.assertTrue('changed successfully' in response.content)
+
+        # Checks new category in database
+        all_categories = Category.objects.all()
+        self.assertEquals(len(all_categories), 1)
+        only_category = all_categories[0]
+        self.assertEquals(only_category.name, 'perl')
+        self.assertEquals(only_category.description, 'The Perl programming lanaguage')
+
+    def test_delete_category(self):
+        # Create a category
+        category = create_category()
+
+        # Log in
+        self.client.login(username='luannguyen', password="password")
+
+        # Delete the category
+        response = self.client.post('/admin/blogengine/category/1/delete/', {
+            'post': 'yes'
+        }, follow=True)
+        self.assertEquals(response.status_code, 200)
+
+        # Check deleted successfully
+        self.assertTrue('deleted successfully' in response.content)
+
+        # Check category amended
+        all_categories = Category.objects.all()
+        self.assertEquals(len(all_categories), 0)

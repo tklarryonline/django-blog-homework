@@ -2,7 +2,7 @@ import markdown
 
 from blogengine.models import Post
 from blogengine.tests.acceptancetest_support import BaseAcceptanceTest
-from blogengine.tests.unittest_support import create_post, create_user, create_site
+from blogengine.tests.unittest_support import *
 
 class PostViewTest(BaseAcceptanceTest):
     def test_index(self):
@@ -12,9 +12,11 @@ class PostViewTest(BaseAcceptanceTest):
         # Create a site
         site = create_site()
 
+        # Create a category
+        category = create_category()
+
         # Creates post
-        post = create_post(author=author,
-                           site=site,
+        post = create_post(author=author, site=site, category=category,
                            title='My first post',
                            text='This is [my first blog post](http://localhost:8000/)')
 
@@ -45,9 +47,11 @@ class PostViewTest(BaseAcceptanceTest):
         # Create a site
         site = create_site()
 
+        # Create a category
+        category = create_category()
+
         # Creates post
-        post = create_post(author=author,
-                           site=site,
+        post = create_post(author=author, site=site, category=category,
                            title='My first post',
                            text='This is [my first blog post](http://localhost:8000/)')
 
