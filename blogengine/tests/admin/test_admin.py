@@ -2,7 +2,7 @@ from django.utils.text import slugify
 
 from blogengine.models import Post
 from blogengine.tests.acceptancetest_support import BaseAcceptanceTest
-from blogengine.tests.unittest_support import create_post
+from blogengine.tests.unittest_support import create_post, create_user
 
 class AdminTest(BaseAcceptanceTest):
     fixtures = ['users.json']
@@ -69,8 +69,11 @@ class AdminTest(BaseAcceptanceTest):
         self.assertEquals(len(all_posts), 1)
 
     def test_edit_post(self):
+        # Creates the author
+        author = create_user()
+
         # Creates a post
-        post = create_post()
+        post = create_post(author)
 
         # Log in
         self.client.login(username='luannguyen', password="password")
@@ -96,8 +99,11 @@ class AdminTest(BaseAcceptanceTest):
         self.assertEquals(post.text, 'This is my second blog post')
 
     def test_delete_post(self):
-        # Create the post
-        create_post()
+        # Creates the author
+        author = create_user()
+
+        # Creates a post
+        post = create_post(author)
 
         # Check new post saved
         all_posts = Post.objects.all()

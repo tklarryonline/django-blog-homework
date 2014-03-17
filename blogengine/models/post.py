@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 class Post(models.Model):
@@ -5,6 +6,7 @@ class Post(models.Model):
     pub_date = models.DateTimeField()
     text = models.TextField()
     slug = models.SlugField(max_length=40, unique=True)
+    author = models.ForeignKey(User)
 
     class Meta:
         app_label = "blogengine"
