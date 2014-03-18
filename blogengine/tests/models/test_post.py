@@ -6,6 +6,9 @@ from blogengine.tests.unittest_support import *
 class PostTest(TestCase):
     def setUp(self):
         self.post = create_test_post()
+        self.tag = create_tag()
+        self.post.tags.add(self.tag)
+        self.post.save()
 
     def test_create_post(self):
         # Checks if post is created successfully
@@ -25,3 +28,11 @@ class PostTest(TestCase):
         self.assertEquals(only_post.pub_date.second, self.post.pub_date.second)
         self.assertEquals(only_post.author, self.post.author)
         self.assertEquals(only_post.category, self.post.category)
+
+        # Check tags
+        post_tags = only_post.tags.all()
+        self.assertEquals(len(post_tags), 1)
+        only_post_tag = post_tags[0]
+        self.assertEquals(only_post_tag, self.tag)
+        self.assertEquals(only_post_tag.name, 'python')
+        self.assertEquals(only_post_tag.description, 'The Python programming lanaguage')

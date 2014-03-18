@@ -3,7 +3,7 @@ from django.contrib.sites.models import Site
 from django.utils import timezone
 from django.utils.text import slugify
 
-from blogengine.models import Post, Category
+from blogengine.models import Post, Category, Tag
 
 def create_post(author, site, category,
                 title='My first post',
@@ -27,6 +27,10 @@ def create_site(name='example.com', domain='example.com'):
 def create_category(name='python',
                     description='The Python programming lanaguage'):
     return Category.objects.create(name=name, description=description)
+
+def create_tag(name='python',
+               description='The Python programming lanaguage'):
+    return Tag.objects.create(name=name, description=description)
 
 def create_test_post():
     # Create author
