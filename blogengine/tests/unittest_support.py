@@ -27,3 +27,13 @@ def create_site(name='example.com', domain='example.com'):
 def create_category(name='python',
                     description='The Python programming lanaguage'):
     return Category.objects.create(name=name, description=description)
+
+def create_test_post():
+    # Create author
+    author = create_user()
+    # Create site
+    site = create_site()
+    # Create category
+    category = create_category()
+    # Create post
+    return create_post(author=author, site=site, category=category)

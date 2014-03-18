@@ -4,9 +4,8 @@ from blogengine.models import Post, Category
 from blogengine.tests.acceptancetest_support import BaseAcceptanceTest
 from blogengine.tests.unittest_support import *
 
-class AdminTest(BaseAcceptanceTest):
-    fixtures = ['users.json']
 
+class AdminTest(BaseAcceptanceTest):
     def test_login(self):
         # Gets login page
         response = self.client.get('/admin/')
@@ -43,6 +42,11 @@ class AdminTest(BaseAcceptanceTest):
         self.assertEquals(response.status_code, 200)
         self.assertTrue('Log in' in response.content)
 
+
+class PostAdminTest(BaseAcceptanceTest):
+    def set_up_post(self):
+        # Set up post
+        self.post = create_test_post()
     def test_create_post(self):
         # Create the category
         category = create_category()
@@ -74,17 +78,8 @@ class AdminTest(BaseAcceptanceTest):
         self.assertEquals(len(all_posts), 1)
 
     def test_edit_post(self):
-        # Creates the author
-        author = create_user()
-
-        # Create a site
-        site = create_site()
-
-        # Create a category
-        category = create_category()
-
-        # Creates a post
-        post = create_post(author, site, category)
+        # Setup post
+        self.set_up_post()
 
         # Log in
         self.client.login(username='luannguyen', password="password")
@@ -112,17 +107,8 @@ class AdminTest(BaseAcceptanceTest):
         self.assertEquals(post.text, 'This is my second blog post')
 
     def test_delete_post(self):
-        # Creates the author
-        author = create_user()
-
-        # Create a site
-        site = create_site()
-
-        # Create a category
-        category = create_category()
-
-        # Creates a post
-        post = create_post(author, site, category)
+        # Setup post
+        self.set_up_post()
 
         # Check new post saved
         all_posts = Post.objects.all()
@@ -140,10 +126,12 @@ class AdminTest(BaseAcceptanceTest):
         # Check deleted successfully
         self.assertTrue('deleted successfully' in response.content)
 
-        # Check post amended
+        # Check post deleted from database
         all_posts = Post.objects.all()
         self.assertEquals(len(all_posts), 0)
 
+
+class CategoryAdminTest(BaseAcceptanceTest):
     def test_create_category(self):
         # Logs in first
         self.client.login(username="luannguyen", password="password")
