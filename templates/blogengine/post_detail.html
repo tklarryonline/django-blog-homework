@@ -6,9 +6,8 @@
         <h1>{{ object.title }}</h1>
         <h3>{{ object.pub_date }}</h3>
         {{ object.text | custom_markdown }}
-
-        <h4>Comments</h4>
-        <div class="fb-comments" data-href="http://{{ post.site }}{{ post.get_absolute_url }}" data-width="470" data-num-posts="10"></div>
+        <a href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a>
     </div>
-    <a href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a>
+    <h4>Comments</h4>
+    <div class="fb-comments" data-href="http://{{ post.site }}{{ post.get_absolute_url }}" data-width="470" data-num-posts="10"></div>
 {% endblock %}
