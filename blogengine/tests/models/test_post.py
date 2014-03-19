@@ -34,5 +34,5 @@ class PostTest(TestCase):
         self.assertEquals(len(post_tags), 1)
         only_post_tag = post_tags[0]
         self.assertEquals(only_post_tag, self.tag)
-        self.assertEquals(only_post_tag.name, 'python')
-        self.assertEquals(only_post_tag.description, 'The Python programming lanaguage')
+        self.assertEquals(only_post_tag.name, 'perl')
+        self.assertEquals(only_post_tag.description, 'The Perl programming language')

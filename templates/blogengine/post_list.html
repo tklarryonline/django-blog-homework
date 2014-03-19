@@ -6,9 +6,12 @@
     <div class="post">
         <h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
         <h3>{{ post.pub_date }}</h3>
+        <h5>Category: <a href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a></h5>
+        {% for tag in post.tags.all %}
+        <h5>Tag: <a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a></h5>
+        {% endfor %}
         {{ post.text | custom_markdown }}
     </div>
-    <a href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a>
     {% endfor %}
 
     {% if page_obj.has_previous %}

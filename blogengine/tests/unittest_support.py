@@ -25,11 +25,11 @@ def create_site(name='example.com', domain='example.com'):
     return Site.objects.create(name=name, domain=domain)
 
 def create_category(name='python',
-                    description='The Python programming lanaguage'):
+                    description='The Python programming language'):
     return Category.objects.create(name=name, description=description)
 
-def create_tag(name='python',
-               description='The Python programming lanaguage'):
+def create_tag(name='perl',
+               description='The Perl programming language'):
     return Tag.objects.create(name=name, description=description)
 
 def create_test_post():
