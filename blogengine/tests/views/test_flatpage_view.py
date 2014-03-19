@@ -2,17 +2,18 @@ from django.contrib.flatpages.models import FlatPage
 from django.contrib.sites.models import Site
 from blogengine.tests.acceptancetest_support import BaseAcceptanceTest
 
-def create_flat_page(url, title, content):
-    page = FlatPage.objects.create(url=url, title=title, content=content)
-    page.sites.add(Site.objects.all()[0])
-    page.save()
-    return page
 
 class FlatPageViewTest(BaseAcceptanceTest):
+    def create_flat_page(self, url, title, content):
+        page = FlatPage.objects.create(url=url, title=title, content=content)
+        page.sites.add(Site.objects.all()[0])
+        page.save()
+        return page
+
     def test_create_flat_page(self):
-        page = create_flat_page(url='/about/',
-                                title='About me',
-                                content='All about me')
+        page = self.create_flat_page(url='/about/',
+                                     title='About me',
+                                     content='All about me')
 
         # Checks if the new page saved
         all_pages = FlatPage.objects.all()
